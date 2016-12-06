@@ -1,0 +1,293 @@
+<html>
+	<style type="text/css"> 
+        #flipclock
+        {
+        	height: 100px;
+        	width: 900px;
+        	position: absolute;
+        	bottom: 90px;
+        	left: 50%;
+        	margin: -140 0 0 -250px;
+        }
+        #logo
+        {
+        	position: absolute;
+        	top: 50%;
+        	left: 50%;
+        	margin: -125px 0 0 -125px;
+        }
+        .wrapper 
+        {
+        	width: 250px;
+        	height: 250px;
+        	text-align: center;
+        }
+
+        .wrapper img 
+        {
+        	margin: 4% 0;
+        	height: 92%;
+        	width: auto;
+        	-webkit-transition: margin 0.3s, height 0.3s;
+        	-moz-transition: margin 0.3s, height 0.3s;
+        	-o-transition: margin 0.3s, height 0.3s;
+        	transition: margin 0.3s, height 0.3s;
+        }
+
+        .wrapper img:hover 
+        {
+        	margin: 0;
+        	height: 100%;
+        	-webkit-transition: margin 0.3s, height 0.3s;
+        	-moz-transition: margin 0.3s, height 0.3s;
+        	-o-transition: margin 0.3s, height 0.3s;
+        	transition: margin 0.3s, height 0.3s;
+        }
+        @font-face
+        {
+        	font-family: 'Century Gothic';
+        	src: url('font/century-gothic.ttf'),
+        	url('font/century-gothic.eot');
+        }
+        /*video#bgvid { 
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+            background: url(polina.jpg) no-repeat;
+            background-size: cover; 
+        }*/
+        body 	
+        {
+        	background-position: center;
+        	background-size: cover;
+        }
+    </style>
+	<head>
+		<link rel="stylesheet" href="css/flipclock.css">
+		<!--<link rel="stylesheet" href="customclock.css">-->
+		<!--<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.7/flipclock.css'>-->
+		<link rel="stylesheet" href="css/style.css">
+
+		<script src="js/jqueryv1.11.1.js"></script>
+
+		<script src="js/flipclock.js"></script>
+
+		<link rel="icon" href="logo.png">
+	</head>
+<!--<video playsinline autoplay muted loop id="bgvid">
+    <source src="video/test1.mp4" type="video/mp4">
+</video>-->
+	<body>
+		<div align = center style = "padding-top: 25px">
+			<p id="date" style = "font-size: 60pt; font-family: 'Century Gothic', 'Helvetica Neue'; color: #ffffff; font-weight: bold">
+			</p>
+		</div>
+
+		<div id = "logo" class = "wrapper">
+			<a href="https://soundcloud.com/suh-hyun-kwon">
+				<img src="logo.png" width="500" height="500" border="0">
+			</a>
+		</div>
+
+		<div id="flipclock" class="countdown"></div>
+
+		<script type="text/javascript">
+			var clock;
+			
+			$(document).ready(function() {
+				clock = $('.countdown').FlipClock({
+					clockFace: 'TwentyFourHourClock',
+					showSeconds: true
+
+				});
+			});
+
+			function monthIntToString(integer)
+			{
+				switch(integer)
+				{
+					case 0:
+					return "JAN";
+					break;
+					case 1:
+					return "FEB";
+					break;
+					case 2:
+					return "MAR";
+					break;
+					case 3:
+					return "APR";
+					break;
+					case 4:
+					return "MAY";
+					break;
+					case 5:
+					return "JUN";
+					break;
+					case 6:
+					return "JUL";
+					break;
+					case 7:
+					return "AUG";
+					break;
+					case 8:
+					return "SEP";
+					break;
+					case 9:
+					return "OCT";
+					break;
+					case 10:
+					return "NOV";
+					break;
+					case 11:
+					return "DEC";
+					break;
+				}
+			}
+
+			var twelveamtofourflag = false;
+			var fouramtoeightflag = false;
+			var eightamtotwelveflag = false;
+			var twelvepmtofourflag = false;
+			var fourpmtoeightflag = false;
+			var eightpmtotwelveflag = false;
+			
+			function timeUpdate()
+			{
+				try
+				{
+					var time = new Date();
+
+					document.getElementById("date").innerHTML = monthIntToString(time.getMonth()) + "." + time.getDate() + "." + time.getFullYear();
+
+
+					if(twelveamtofourflag == false && time.getHours() >= 0 && time.getHours() < 4)
+					{
+						document.body.style.backgroundImage = "url('video/12AM4AM.gif')";
+						document.getElementById("music").src = "music/12AM4AM.mp3";
+						twelveamtofourflag = true;
+						fouramtoeightflag = false;
+						eightamtotwelveflag = false;
+						twelvepmtofourflag = false;
+						fourpmtoeightflag = false;
+						eightpmtotwelveflag = false;
+					}
+					else if(fouramtoeightflag == false && time.getHours() >= 4 && time.getHours() < 8)
+					{
+						document.body.style.backgroundImage = "url('video/4AM8AM.gif')";
+						document.getElementById("music").src = "music/4AM8AM.mp3";
+						fouramtoeightflag = true;
+						twelveamtofourflag = false
+						eightamtotwelveflag = false;
+						twelvepmtofourflag = false;
+						fourpmtoeightflag = false;
+						eightpmtotwelveflag = false;
+
+					}
+					else if(eightamtotwelveflag == false && time.getHours() >= 8 && time.getHours() < 12)
+					{
+						document.body.style.backgroundImage = "url('video/8AM12PM.gif')";
+						document.getElementById("music").src ="music/8AM12PM.mp3";
+						eightamtotwelveflag = true;
+						twelveamtofourflag = false;
+						twelvepmtofourflag = false;
+						fourpmtoeightflag = false;
+						eightpmtotwelveflag = false;
+						fouramtoeightflag = false;
+					}
+					else if(twelvepmtofourflag == false && time.getHours() >= 12 && time.getHours() < 16)
+					{
+						document.body.style.backgroundImage = "url('video/12PM4PM.gif')";
+						document.getElementById("music").src = "music/12PM4PM.mp3";
+						twelvepmtofourflag = true;
+						eightamtotwelveflag = false;
+						fourpmtoeightflag = false;
+						eightpmtotwelveflag = false;
+						twelveamtofourflag = false;
+						fouramtoeightflag = false;
+					}
+					else if(fourpmtoeightflag == false && time.getHours() >= 16 && time.getHours() < 20)
+					{
+						document.body.style.backgroundImage = "url('video/4PM8PM.gif')";
+						document.getElementById("music").src = "music/4PM8PM.mp3";
+						fourpmtoeightflag = true;
+						twelvepmtofourflag = false;
+						eightpmtotwelveflag = false;
+						twelveamtofourflag = false;
+						eightamtotwelveflag = false;
+						fouramtoeightflag = false;
+					}
+					else if (eightpmtotwelveflag == false && time.getHours() >= 20 && time.getHours() < 24)
+					{
+						document.body.style.backgroundImage = "url('video/8PM12AM.gif')";
+						document.getElementById("music").src = "music/4PM8PM.mp3";
+						eightpmtotwelveflag = true;
+						fourpmtoeightflag = false;
+						twelveamtofourflag = false;
+						eightamtotwelveflag = false;
+						twelvepmtofourflag = false;
+						fouramtoeightflag = false;
+					}
+				}
+				catch(e)
+				{
+					console.log(e.message);
+				}
+			}
+			
+			/*function changeColor()
+			{
+				var time = new Date();
+				var milliseconds = (time.getHours() * 360000) + (time.getMinutes() * 6000) + (time.getSeconds() * 100) + time.getMilliseconds();
+				var color = (milliseconds * 2).toString(16);
+				document.body.style.backgroundColor = color;
+			}
+			*/
+			/*function changeColor()
+			{
+				console.log('event fired');
+				var colors = [0, 0, 0];
+				var hour = new Date().getHours();
+				console.log(hour);
+				var color = parseInt(255/24*hour);
+				console.log(color);
+				for(var i = 0; i < colors.length; i++) 
+				{
+					colors[i] = color;
+				}
+				document.body.style.backgroundColor = "rgb("+colors[0] + "," + colors[1] + "," + colors[2] + ")";
+				console.log("event fired. color get:" + colors[0] + colors[1] + colors[2]);
+			}*/
+			
+			window.onload=function()
+			{
+				timeUpdate();
+				setInterval(timeUpdate,1000);
+			}
+		</script>
+		<!--<embed src="music/test1.mp3" autostart="true" loop="true" hidden = "true">-->
+		<audio id="music" hidden autoplay loop>
+			<!--<source id="music" src="" type="audio/mpeg">-->
+			Hello
+		</audio>
+		<!--<video id="bgVideo" controls preload="true" autoplay loop muted>
+			<source src="video/test1.mp4" type="video/mp4" > 
+		</video>-->
+		<!--
+		<div id = "logo" class = "wrapper">
+			<a href="https://soundcloud.com/suh-hyun-kwon">
+				<img src="logo.png" width="350" height="350" border="0">
+			</a>
+		</div>
+		-->
+	</body>
+</html>
